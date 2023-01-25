@@ -45,3 +45,10 @@ aws cloudformation deploy \
     GitHubBranch=$GH_BRANCH \
     GitHubPersonalAccessToken=$GH_ACCESS_TOKEN \
     CodePipelineBucket=$CODEPIPELINE_BUCKET
+
+# If the deploy succeeded, show the DNS name of the created instance
+if [ $? -eq 0 ]; then
+  aws cloudformation list-exports \
+    --profile $CLI_PROFILE \
+    --query "Exports[?Name=='InstanceEndpoint'].Value"
+fi
